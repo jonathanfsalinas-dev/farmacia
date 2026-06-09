@@ -1,4 +1,6 @@
 package com.farmacia.entity;
+//esta clase representa la entidad "Usuario" en la base de datos,
+//  con sus atributos y anotaciones para mapearla correctamente.
 
 import com.farmacia.enums.Rol;
 import jakarta.persistence.*;

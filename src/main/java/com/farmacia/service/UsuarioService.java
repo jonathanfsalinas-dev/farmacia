@@ -1,4 +1,7 @@
 package com.farmacia.service;
+//esta clase representa el servicio para la entidad "Usuario",
+//  con los métodos para crear, listar, buscar y eliminar usuarios,
+//  utilizando el repositorio UsuarioRepository para interactuar con la base de datos.  
 
 import com.farmacia.entity.Usuario;
 import com.farmacia.repository.UsuarioRepository;

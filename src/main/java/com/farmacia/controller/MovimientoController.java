@@ -7,8 +7,11 @@ import com.farmacia.service.MovimientoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
+@Tag(name = "Movimientos", description = "Gestión de movimientos de stock en el sistema")
 @RequestMapping("/movimientos")
 public class MovimientoController {
     //inyección de dependencia del servicio de movimientos
@@ -20,6 +23,7 @@ public class MovimientoController {
 
     // Endpoint para registrar una entrada de stock, recibe el ID del medicamento y la cantidad a ingresar
     @PostMapping("/entrada")
+    @Operation(summary = "Registrar una entrada de stock")  
     // ResponseEntity envuelve la respuesta HTTP completa (cuerpo, estado, encabezados)
     //que devuelve el controller al cliente
     public ResponseEntity<Movimiento> registrarEntrada(
@@ -36,6 +40,7 @@ public class MovimientoController {
 
     // Endpoint para registrar una salida de stock, recibe el ID del medicamento y la cantidad a sacar
     @PostMapping("/salida")
+    @Operation(summary = "Registrar una salida de stock")
     public ResponseEntity<Movimiento> registrarSalida(
             @RequestParam Long medicamentoId,
             @RequestParam Integer cantidad
@@ -48,6 +53,7 @@ public class MovimientoController {
     // SOLO ADMIN puede eliminar movimientos, recibe el ID del movimiento a eliminar
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Eliminar un movimiento")
     public ResponseEntity<String> eliminarMovimiento(@PathVariable Long id) {
         movimientoService.eliminarMovimiento(id);
         return ResponseEntity.ok("Movimiento eliminado correctamente");

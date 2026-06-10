@@ -1,0 +1,204 @@
+# Sistema de Control de Inventario de Farmacia
+
+## Descripción General
+
+El proyecto consiste en el desarrollo de una aplicación backend utilizando Spring Boot para la gestión del inventario de una farmacia.
+
+El sistema permite administrar usuarios, medicamentos y movimientos de stock, garantizando la trazabilidad de todas las operaciones realizadas. La aplicación expone una API REST que devuelve información en formato JSON y puede ser consumida por clientes externos.
+
+Durante el desarrollo se aplicaron conceptos de Spring Boot, Spring Data JPA, Spring Security, Hibernate y arquitectura en capas.
+
+---
+
+## Alcance del Proyecto
+
+### Funcionalidades implementadas
+
+* Inicio de sesión.
+* Gestión de usuarios.
+* Gestión de medicamentos.
+* Registro de entradas de stock.
+* Registro de salidas de stock.
+* Consulta de stock.
+* Consulta del historial de movimientos.
+* Control de permisos según roles.
+* Documentación automática mediante Swagger/OpenAPI.
+
+### Funcionalidades excluidas
+
+* Facturación.
+* Gestión de clientes.
+* Gestión de proveedores.
+* Compras.
+* Alertas de vencimiento.
+* Reportes estadísticos avanzados.
+
+---
+
+## Arquitectura del Sistema
+
+La aplicación fue desarrollada siguiendo una arquitectura monolítica en capas:
+
+* Controller: recibe las peticiones HTTP y devuelve respuestas al cliente.
+* Service: contiene la lógica de negocio.
+* Repository: gestiona el acceso a la base de datos.
+* Entity: representa el modelo del dominio.
+
+Flujo general:
+
+Cliente → Controller → Service → Repository → Base de Datos
+
+Thunder Client fue utilizado únicamente para realizar pruebas sobre la API REST. No representa el frontend del sistema.
+
+---
+
+## Tecnologías Utilizadas
+
+* Java
+* Spring Boot
+* Spring Web
+* Spring Data JPA
+* Hibernate
+* Spring Security
+* H2 Database
+* Lombok
+* Validation
+* Swagger / OpenAPI
+* Maven
+* Git y GitHub
+
+La aplicación se ejecuta como un archivo JAR utilizando el servidor embebido Tomcat proporcionado por Spring Boot.
+
+---
+
+## Entidades Principales
+
+### Usuario
+
+* id
+* username
+* password
+* rol
+* activo
+* bloqueado
+
+Roles disponibles:
+
+* ADMIN
+* OPERADOR
+
+### Medicamento
+
+* id
+* nombre
+* tipo
+* marca
+* stock
+
+### Movimiento
+
+* id
+* tipo
+* cantidad
+* fecha
+* usuario
+* medicamento
+
+Tipos de movimiento:
+
+* ENTRADA
+* SALIDA
+
+---
+
+## Reglas de Negocio Implementadas
+
+* No puede existir stock negativo.
+* La cantidad de un movimiento debe ser mayor que cero.
+* El username debe ser único.
+* No puede existir un medicamento duplicado.
+* El stock se almacena directamente en la entidad Medicamento.
+* Toda entrada incrementa automáticamente el stock.
+* Toda salida disminuye automáticamente el stock.
+* No se permiten salidas que generen stock negativo.
+* Un medicamento solo puede eliminarse cuando su stock es igual a cero.
+* Todo movimiento registra fecha y usuario responsable.
+* Los movimientos no pueden modificarse una vez registrados.
+* Solo los usuarios ADMIN pueden eliminar movimientos.
+* Al eliminar un movimiento se revierte automáticamente el efecto producido sobre el stock.
+
+---
+
+## Seguridad
+
+Se implementó autenticación y autorización mediante Spring Security.
+
+### Administrador
+
+Puede:
+
+* Administrar usuarios.
+* Gestionar medicamentos.
+* Registrar movimientos.
+* Eliminar movimientos.
+* Realizar todas las operaciones del sistema.
+
+### Operador
+
+Puede:
+
+* Gestionar medicamentos.
+* Registrar entradas y salidas.
+* Consultar stock.
+* Consultar movimientos.
+
+No puede administrar usuarios ni eliminar movimientos.
+
+---
+
+## Principios y Patrones Aplicados
+
+### Principios SOLID
+
+* Single Responsibility Principle (SRP).
+* Interface Segregation Principle (ISP).
+* Dependency Inversion Principle (DIP).
+
+### Patrones de Diseño
+
+#### Singleton
+
+Utilizado por Spring para administrar los componentes gestionados por el contenedor IoC.
+
+#### Strategy
+
+Aplicado para encapsular la lógica correspondiente a los movimientos de ENTRADA y SALIDA, permitiendo extender el sistema sin modificar código existente.
+
+#### Builder
+
+Implementado mediante Lombok para simplificar la construcción de objetos complejos.
+
+#### Adapter
+
+Presente en Spring Security mediante la adaptación entre la entidad Usuario y la interfaz UserDetails utilizada por el framework.
+
+---
+
+## Documentación de la API
+
+La API fue documentada utilizando Swagger/OpenAPI.
+
+La documentación permite:
+
+* Visualizar todos los endpoints disponibles.
+* Consultar parámetros y respuestas.
+* Probar las operaciones desde una interfaz web.
+* Generar automáticamente la especificación OpenAPI en formato JSON.
+
+---
+
+## Conclusiones
+
+El proyecto permitió aplicar conceptos de desarrollo backend con Java y Spring Boot, integrando persistencia con JPA e Hibernate, autenticación y autorización con Spring Security y documentación automática mediante Swagger.
+
+La solución desarrollada implementa reglas de negocio reales para el control de inventario y fue construida utilizando una arquitectura modular y mantenible, preparada para futuras extensiones y la incorporación de interfaces web o móviles.
